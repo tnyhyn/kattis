@@ -21,11 +21,13 @@ def main():
         feathers[i] = [int(f1), int(f2)]
 
     t_heap, f_heap = [], []
-    [t_heap.append(((dist(tars[t], judges[j]), j, t))) for j in range(n) for t in range(m)]
-    [f_heap.append(((dist(feathers[f], judges[j]), j, f))) for j in range(n) for f in range(p)]
+    [t_heap.append(((dist(tars[t], judges[j]), j, t))) for t in range(m) for j in range(n)]
+    [f_heap.append(((dist(feathers[f], judges[j]), j, f))) for f in range(p) for j in range(n)]
+    t_heap.sort(key = lambda x: x[0])
+    f_heap.sort(key = lambda x: x[0])
+
     heapq.heapify(t_heap)
     heapq.heapify(f_heap)
-
     setj, settf = set(), set()
     sum = 0
     while n > len(setj):
@@ -42,7 +44,6 @@ def main():
             setj.add(j)
             settf.add(f)
     print(round(sum, 6))
-
 
 
 if __name__ == "__main__":
