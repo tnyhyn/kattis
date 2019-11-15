@@ -3,33 +3,27 @@ from collections import deque
 
 
 def bash(target, buttons):
+    print("target: {} | buttons: {}".format(target, buttons))
     q = deque()
-    q.append(0,0)
+    q.append((0,0))
     while q:
-        current, dist = q.popleft()
+        dist, current = q.popleft()
         dist += 1
         for i in buttons:
-            current += i
-            if current < 0: current = 0
-            elif current > 3600: current = 3600
-            elif current == target: print()
-
-
-
-
-
-
-
-
-
-
-
-
-
+            pressed = current
+            if dist > 10: return ('break' , 'break')
+            pressed += i
+            if pressed < 0: pressed = 0
+            elif pressed > 3600: pressed = 3600
+            elif pressed == target:
+                return (dist, pressed - pressed)
+            # print(dist, pressed)
+            q.append((dist, pressed))
 
 
 n = int(input())
 for i in range(n):
     amt, target = stdin.readline().split()
     buttons = {int(i) for i in stdin.readline().split()}
-    bash(int(target), buttons)
+    dist, remainder = (bash(int(target), buttons))
+    print(dist, remainder)
