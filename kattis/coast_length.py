@@ -2,7 +2,8 @@ from sys import stdin, setrecursionlimit
 setrecursionlimit(10000000)
 sea = 0
 
-
+# dfs on sea water and search edges to count perimeter
+# dfs again for water surrounded by land and set to 1
 def printer(grid):
     for i in grid:
         print(i)

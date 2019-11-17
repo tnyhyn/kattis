@@ -2,7 +2,7 @@ from sys import stdin, stdout
 import math
 import heapq
 
-
+#Maintain two min heaps, pop N items from each heap for N judges
 def main():
     def dist(p1, p2):
         return math.sqrt((p2[1] - p1[1])**2 + (p2[0] - p1[0])**2)
