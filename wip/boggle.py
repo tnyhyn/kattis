@@ -13,32 +13,44 @@ def boggle(di, A):
             if A[i][j] in di:
                 for word in di[A[i][j]]:
                     if word_exists(A, i, j, word):
+                        if word in used: continue
+                        else: used.add(word)
                         words += 1
-                        score += word_score(word)
-    print(score, words)
+                        if len(word) >= len(longest_word):
+                            lexico = word
+                            longest_word = word
+                            if lexico < longest_word:
+                                longest_word = lexico
+                        ws = word_score(word)
+                        # print("word: {} | score: {}".format(word, ws))
+                        score += ws
+    print(score, longest_word, words)
 
 
 def word_exists(A, i, j, word):
     directions = [(-1,0), (0,1), (1,0), (0,-1), (-1,-1), (-1,1), (1,1), (1,-1)]
     q = deque()
-    q.append((word[0], i, j, set()))
-    print("word: {}".format(word))
+    initial_set = set()
+    initial_set.add((i,j))
+    q.append((word[0], word[1:], i, j, initial_set))
+    # print("word: {}".format(word))
     while q:
-        letters, i, j, seen = q.popleft()
-        for c in word[1:]:
-            if letters == word: 
-                print("found", letters)
-                return True
-            for d in directions:
-                ni, nj = i+d[0], j+d[1]
-                # print("letters: {} | ni: {} | nj: {}".format(letters, ni, nj))
-                # print("seen: {}".format(seen))
-                if (ni, nj) in seen: continue
-                if ni < 0 or ni >= len(A) or nj < 0 or nj >= len(A[0]):
-                    continue
-                if A[ni][nj] == c:
-                    seen.add((ni,nj))
-                    q.append((''.join([letters, c]), ni, nj, seen))
+        letters, rest, i, j, seen_before = q.popleft()
+        if letters == word: 
+            # print("found", letters)
+            return True
+        for d in directions:
+            ni, nj = i+d[0], j+d[1]
+            if ni < 0 or ni >= len(A) or nj < 0 or nj >= len(A[0]):
+                continue
+            # print("A: {} | words: {} | letters: {} | seen_before: {}".format(A[ni][nj],word,letters,seen_before))
+            # # print("seen_before: {}".format(seen_before))
+            if (ni, nj) in seen_before: continue
+            if A[ni][nj] == rest[0]:
+                # print("letters:",letters,"appended")
+                seen = seen_before.copy()
+                seen.add((ni,nj))
+                q.append((''.join([letters, rest[0]]), rest[1:], ni, nj, seen))
     return False
 
 
@@ -62,7 +74,7 @@ for i in range(n):
     for j in range(4):
         row = list(stdin.readline().rstrip())
         board.append(row)
-    print(boggle(dictionary, board))
+    (boggle(dictionary, board))
     # print(board)
     if i != n-1: newline = input()
 # print(dictionary)
