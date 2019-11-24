@@ -16,14 +16,13 @@ def boggle(di, A):
                         if word in used: continue
                         else: used.add(word)
                         words += 1
-                        if len(word) >= len(longest_word):
-                            lexico = word
+                        if len(word) > len(longest_word): longest_word = word
+                        if len(word) == len(longest_word) and longest_word > word:
                             longest_word = word
-                            if lexico < longest_word:
-                                longest_word = lexico
                         ws = word_score(word)
-                        # print("word: {} | score: {}".format(word, ws))
+                        print("word: {} | score: {}".format(word, ws))
                         score += ws
+    print("found:",used)
     print(score, longest_word, words)
 
 
