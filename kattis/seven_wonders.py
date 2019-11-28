@@ -1,0 +1,5 @@
+cards = str(input())
+t = cards.count('T')
+c = cards.count('C')
+g = cards.count('G')
+print(t**2 + c**2 + g**2 + 7*min(t,c,g))
