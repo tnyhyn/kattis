@@ -1,35 +1,19 @@
-from sys import stdin, setrecursionlimit
-setrecursionlimit(10000000)
-sea = 0
-
-# dfs on sea water and search edges to count perimeter
-# dfs again for water surrounded by land and set to 1
-def printer(grid):
-    for i in grid:
-        print(i)
+from sys import stdin
 
 def coast(grid):
     p = 0
     for i in range(len(grid)):
         for j in range(len(grid[0])):
-            # if grid[i][j] == 0:
             s = set()
             if  grid[i][j] == 0:
                 if is_sea(grid,i,j,s, False):
                     p += dfs(grid, i, j)
-                    # printer(grid)
-                    # print("i: {} | j: {} | p: {}".format(i,j,p))
                 else:
                     s = set() 
                     is_sea(grid,i,j,s, True)
-    # printer(grid)
-    # print("p: {} | edges: {}".format(p, edges(grid)))
-    # print("sea: {} ".format(sea))
     print(p + edges(grid))
 
 def is_sea(grid, i, j, v, place):
-    global sea
-    sea += 1
     if i < 0 or i >= len(grid) or j < 0 or j >= len(grid[0]) or grid[i][j] == -1:
         return False
     if (i,j) in v: return False
